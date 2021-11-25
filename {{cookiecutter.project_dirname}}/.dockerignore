@@ -1,20 +1,17 @@
-# directories
-.*
+**/*.po
 **/__pycache__
 **/lost+found
-htmlcov
-k8s
-media
-static
-# files
 *.md
 *.svg
 *.txt
-**/LICENSE*
-**/README*
+.*
+data
 docker-compose*
 Dockerfile*
+htmlcov
+k8s
 Makefile
-# pyproject.toml
+media
+media_test
 requirements/*.in
-# setup.cfg
+static

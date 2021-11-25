@@ -77,8 +77,6 @@ class ProjectDefault(Configuration):
         },
     ]
 
-    ASGI_APPLICATION = "{{cookiecutter.project_slug}}.asgi.application"
-
     WSGI_APPLICATION = "{{cookiecutter.project_slug}}.wsgi.application"
 
     # Database
@@ -218,6 +216,7 @@ class Local(ProjectDefault):
     else:  # pragma: no cover
         INSTALLED_APPS.append("django_extensions")
         SHELL_PLUS_PRINT_SQL = True
+        SHELL_PLUS_PRINT_SQL_TRUNCATE = None
         GRAPH_MODELS = {
             "all_applications": True,
             "arrow_shape": "diamond",
@@ -300,6 +299,20 @@ class Testing(ProjectDefault):
         pass
     else:  # pragma: no cover
         INSTALLED_APPS.append("behave_django")
+
+    # Stored files
+    # https://docs.djangoproject.com/en/stable/topics/files/{% if cookiecutter.use_media == "Yes" %}  # noqa
+
+    MEDIA_ROOT = ProjectDefault.BASE_DIR / "media_test"  # noqa{% else %}
+
+    # MEDIA_ROOT = ProjectDefault.BASE_DIR / "media_test"{% endif %}
+
+    # unittest-xml-reporting (aka xmlrunner)
+    # https://github.com/xmlrunner/unittest-xml-reporting#django-support
+
+    TEST_OUTPUT_FILE_NAME = "report.xml"
+
+    TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
 
 
 class Remote(ProjectDefault):
@@ -402,3 +415,15 @@ class Remote(ProjectDefault):
             ):
                 return "storages.backends.s3boto3.S3Boto3Storage"  # pragma: no cover
             return "django.core.files.storage.FileSystemStorage"  # noqa {% endif %}
+
+
+class Development(Remote):
+    """The development settings."""
+
+
+class Integration(Remote):
+    """The integratrion settings."""
+
+
+class Production(Remote):
+    """The production settings."""
