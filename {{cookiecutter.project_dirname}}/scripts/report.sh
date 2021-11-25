@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-set -ex
+set -euo pipefail
 
-coverage combine
-coverage html
-coverage report
+python3 -m coverage combine
+python3 -m coverage html
+python3 -m coverage report
